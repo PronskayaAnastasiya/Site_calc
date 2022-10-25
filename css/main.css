@@ -73,7 +73,7 @@ body {
 
 /* Summary Item*/
 .summary-item__title {
-    margin-bottom: 10px;
+	margin-bottom: 10px;
 	font-size: 14px;
 	color: #888888;
 }
@@ -128,8 +128,8 @@ body {
 	font-weight: 400;
 }
 
-.radio-hidden:checked + .radio-label {
-    border-color: transparent;
+.radio-hidden:checked+.radio-label {
+	border-color: transparent;
 	background-color: #21bb57;
 	color: #fff;
 }
@@ -160,9 +160,9 @@ body {
 }
 
 .param__value {
-    display: block;
-    width: 100%;
-    font-size: 18px;
+	display: block;
+	width: 100%;
+	font-size: 18px;
 }
 
 .param__range-slider {
@@ -173,7 +173,7 @@ body {
 }
 
 .param__limits {
-    padding-top: 8px;
+	padding-top: 8px;
 }
 
 .limit {
@@ -203,28 +203,32 @@ body {
 }
 
 /* Sliders */
+#slider-cost {
+	height: 8px;
+}
 
 #slider-cost,
 #slider-cost .noUi-handle {
-    box-shadow: none;
+	box-shadow: none;
 }
 
 /* Hide markers on slider handles */
 #slider-cost .noUi-handle::before,
 #slider-cost .noUi-handle::after {
-    display: none;
+	display: none;
 }
 
 #slider-cost .noUi-connect {
-    background: #21bb57;
+	background: #21bb57;
 }
 
 #slider-cost .noUi-handle {
-    height: 20px;
-    width: 20px;
-    top: -7px;
-    right: -10px; /* half the width */
-    border-radius: 50%;
+	height: 20px;
+	width: 20px;
+	top: -7px;
+	right: -10px;
+	/* half the width */
+	border-radius: 50%;
 	background-color: #fff;
 	box-shadow: 0 1px 4px rgb(36 38 41 / 24%);
 	cursor: pointer;
@@ -232,6 +236,6 @@ body {
 	transition: transform 0.1s ease-in;
 }
 
-#slider-cost .noUi-handle:hover{
+#slider-cost .noUi-handle:hover {
 	transform: scale(1.3);
 }
