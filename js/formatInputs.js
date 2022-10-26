@@ -1,6 +1,8 @@
 import { priceFormatter } from "./formatters.js";
 import { priceFormatterDecimals } from "./formatters.js";
 
+const maxPrice = 100000000;
+
 //Инпуты
 const inputCost = document.querySelector('#input-cost');
 const inputDownPayment = document.querySelector("#input-downpayment");
@@ -34,8 +36,13 @@ form.addEventListener('input', function () {
 });
 
 function calcMortgage() {
+
+    let cost = cleaveCost.getRawValue();
+    if (cost > maxPrice) {
+        cost = maxPrice;
+    }
     //Общая сумма кредита
-    const totalAmount = cleaveCost.getRawValue() - cleaveDownPayment.getRawValue();
+    const totalAmount = cost - cleaveDownPayment.getRawValue();
     totalCost.innerText = priceFormatter.format(totalAmount);
 
     //Ставка по кредиту
@@ -54,12 +61,14 @@ function calcMortgage() {
     totalMonthPayment.innerText = priceFormatterDecimals.format(monthPayment);
 }
 
+
+//SliderCost
 const sliderCost = document.getElementById('slider-cost');
 noUiSlider.create(sliderCost, {
     start: 12000000,
     connect: 'lower',
     step: 100000,
-    tooltips: true,
+    //tooltips: true,
     range: {
         'min': 0,
         '50%': [10000000, 1000000],
@@ -71,9 +80,87 @@ noUiSlider.create(sliderCost, {
         suffix: '',
     })
 });
-
-sliderCost.noUiSlider.on('update', function () {
+sliderCost.noUiSlider.on('slide', function () {
     const sliderValue = sliderCost.noUiSlider.get();
     inputCost.value = sliderValue;
     calcMortgage();
-}); 
+});
+
+
+//Slider Downpayment
+const sliderDownpayment = document.getElementById('slider-downpayment');
+noUiSlider.create(sliderDownpayment, {
+    start: 498000,
+    connect: 'lower',
+    step: 100000,
+    //tooltips: true,
+    range: {
+        'min': 0,
+        '50%': [10000000, 1000000],
+        'max': 100000000
+    },
+    format: wNumb({
+        decimals: 0,
+        thousand: ' ',
+        suffix: '',
+    })
+});
+sliderDownpayment.noUiSlider.on('slide', function () {
+    const sliderValue = sliderDownpayment.noUiSlider.get();
+    inputDownPayment.value = sliderValue;
+    calcMortgage();
+});
+
+//Slider Term
+const sliderTerm = document.getElementById('slider-term');
+noUiSlider.create(sliderTerm, {
+    start: 12,
+    connect: 'lower',
+    step: 1,
+    tooltips: true,
+    range: {
+        'min': 1,
+        'max': 30
+    },
+    format: wNumb({
+        decimals: 0,
+        thousand: ' ',
+        suffix: '',
+    })
+});
+sliderTerm.noUiSlider.on('slide', function () {
+    const sliderValue = sliderTerm.noUiSlider.get();
+    inputTerm.value = sliderValue;
+    calcMortgage();
+});
+
+
+//Форматирование InputCost
+inputCost.addEventListener('input', function () {
+    const value = +cleaveCost.getRawValue();
+
+    //Обновляем range slider
+    sliderCost.noUiSlider.set(value);
+
+    //Проверка на макс цену
+    if (value > maxPrice) {
+        inputCost.closest('.param__details').classList.add('param__details--error');
+    } else {
+        inputCost.closest('.param__details').classList.remove('param__details--error');
+    }
+
+    //Зависимость значений downpayment от input cost
+    const percentMin = value * 0.15;
+    const percentMax = value * 0.9;
+
+    
+
+});
+
+inputCost.addEventListener('change', function () {
+    const value = +cleaveCost.getRawValue();
+    if (value > maxPrice) {
+        inputCost.closest('.param__details').classList.remove('param__details--error');
+        cleaveCost.setRawValue(maxPrice);
+    }
+});
