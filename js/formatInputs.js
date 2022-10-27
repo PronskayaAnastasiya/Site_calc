@@ -96,8 +96,7 @@ noUiSlider.create(sliderDownpayment, {
     //tooltips: true,
     range: {
         'min': 0,
-        '50%': [10000000, 1000000],
-        'max': 100000000
+        'max': 1000000
     },
     format: wNumb({
         decimals: 0,
@@ -153,7 +152,13 @@ inputCost.addEventListener('input', function () {
     const percentMin = value * 0.15;
     const percentMax = value * 0.9;
 
-    
+    sliderDownpayment.noUiSlider.updateOptions({
+        range: {
+            min: percentMin,
+            max: percentMax,
+        },
+    });
+
 
 });
 
